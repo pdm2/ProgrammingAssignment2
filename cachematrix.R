@@ -1,10 +1,19 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Cache and return inverse of a The Matrix. There is no spoon.
 
 #This function creates a special "matrix" object that can cache its inverse.
 
-makeCacheMatrix <- function(x = matrix()) {
-
+makeCacheMatrix <- function(x = matrix()){
+ 	m <- NULL
+      set <- function(y) {
+              x <<- y
+              m <<- NULL
+      }
+      get <- function() x
+      setinv <- function(solve) m <<- solve
+      getinv <- function() m
+      list(set = set, get = get,
+           setinv = setinv,
+           getinv = getinv)
 }
 
 
@@ -13,6 +22,14 @@ makeCacheMatrix <- function(x = matrix()) {
 #, then the cachesolve should retrieve the inverse from the cache.
 
 cacheSolve <- function(x, ...) {
-
+	m <- x$getinv()
+      if(!is.null(m)) {
+      	message("getting cached data")
+      	return(m)
+      }
+      data <- x$get()
+      m <- solve(data, ...)
+      x$setsolve(m)
+      m
 
 }
